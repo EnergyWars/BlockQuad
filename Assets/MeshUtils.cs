@@ -20,7 +20,8 @@ public static class MeshUtils
         DIRT,
         WATER,
         STONE,
-        SAND
+        SAND,
+        AIR
     };
 
     public static Vector2[,] blockUVs =

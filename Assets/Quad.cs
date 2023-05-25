@@ -14,6 +14,7 @@ public class Quad
         Vector3[] normals = new Vector3[4];
         Vector2[] uvs = new Vector2[4];
         int[] triangles = new int[6];
+        triangles = new int[] {3, 1, 0, 3, 2, 1};
 
         Vector2 uv00 = MeshUtils.blockUVs[(int)bType,0];
         Vector2 uv10 = MeshUtils.blockUVs[(int)bType,1];
@@ -28,7 +29,6 @@ public class Quad
         Vector3 p5 = new Vector3(0.5f, 0.5f, 0.5f) + offset;
         Vector3 p6 = new Vector3(0.5f, 0.5f, -0.5f) + offset;
         Vector3 p7 = new Vector3(-0.5f, 0.5f, -0.5f) + offset;
-        triangles = new int[] {3, 1, 0, 3, 2, 1};
 
         switch (side)
         {
