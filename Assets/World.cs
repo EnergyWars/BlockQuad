@@ -37,6 +37,16 @@ public class World : MonoBehaviour
                 }
             }
         }
+
+        mCamera.SetActive(false);
+
+        float xpos = worldDimensions.x * chunkDimensions.x / 2f;
+        float zpos = worldDimensions.z * chunkDimensions.x / 2;
+        Chunk c = chunkPrefab.GetComponent<Chunk>();
+        float ypos = MeshUtils.fBM(xpos, zpos, c.octaves, c.scale, c.heightScale, c.heightOffset) + 10;
+        fpc.transform.position = new Vector3(xpos, ypos, zpos);
+        loadingBar.gameObject.SetActive(false);
+        fpc.SetActive(true);
     }
 
     // Update is called once per frame
