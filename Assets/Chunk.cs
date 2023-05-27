@@ -14,7 +14,15 @@ public class Chunk : MonoBehaviour
     public int height = 2;
     public int depth = 2;
 
+    [Header("Perlin Settings")] public float heightScale = 10;
+    public float scale = 0.001f;
+    public int octaves = 8;
+    public float heightOffset = -33;
+
+    public Vector3 location;
+
     public Block[,,] blocks;
+
     // Flat[x + WIDTH * (y + DEPTH * z)] = Original[x, y, z]
     // x = i % WIDTH
     // y = (i / WIDTH) % HEIGHT
@@ -27,10 +35,10 @@ public class Chunk : MonoBehaviour
         chunkData = new MeshUtils.BlockType[blockCount];
         for (int i = 0; i < blockCount; i++)
         {
-            int x = i % width;
-            int y = (i / width) % height;
-            int z = i / (width * height);
-            if (MeshUtils.fBM(x, z, 8, 0.001f, 10, -33) > y)
+            int x = i % width + (int) location.x;
+            int y = (i / width) % height + (int) location.y;
+            int z = i / (width * height) + (int) location.z;
+            if (MeshUtils.fBM(x, z, this.octaves, this.scale, this.heightScale, this.heightOffset) > y)
             {
                 chunkData[i] = MeshUtils.BlockType.DIRT;
             }
@@ -41,9 +49,17 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+    }
+
+    public void CreateChunk(Vector3 dimensions, Vector3 position)
+    {
+        location = position;
+        width = (int) dimensions.x;
+        height = (int) dimensions.y;
+        depth = (int) dimensions.z;
+
         MeshFilter mf = this.gameObject.AddComponent<MeshFilter>();
         MeshRenderer mr = this.gameObject.AddComponent<MeshRenderer>();
         mr.material = atlas;
@@ -66,12 +82,13 @@ public class Chunk : MonoBehaviour
             {
                 for (int x = 0; x < width; x++)
                 {
-                    blocks[x, y, z] = new Block(new Vector3(x, y, z), chunkData[x + width * (y + depth * z)], this);
+                    blocks[x, y, z] = new Block(new Vector3(x, y, z) + location, chunkData[x + width * (y + depth * z)],
+                        this);
                     if (blocks[x, y, z].mesh != null)
                     {
                         inputMeshes.Add(blocks[x, y, z].mesh);
                         var vcount = blocks[x, y, z].mesh.vertexCount;
-                        var icount = (int)blocks[x, y, z].mesh.GetIndexCount(0);
+                        var icount = (int) blocks[x, y, z].mesh.GetIndexCount(0);
                         jobs.vertexStart[m] = vertexStart;
                         jobs.triStart[m] = triStart;
                         vertexStart += vcount;
@@ -93,7 +110,7 @@ public class Chunk : MonoBehaviour
 
         var handle = jobs.Schedule(inputMeshes.Count, 4);
         var newMesh = new Mesh();
-        newMesh.name = "Chunk";
+        newMesh.name = "Chunk_" + location.x + "_" + location.y + "_" + location.z;
         var sm = new SubMeshDescriptor(0, triStart, MeshTopology.Triangles);
         sm.firstVertex = 0;
         sm.vertexCount = vertexStart;
@@ -102,14 +119,13 @@ public class Chunk : MonoBehaviour
 
         jobs.outputMesh.subMeshCount = 1;
         jobs.outputMesh.SetSubMesh(0, sm);
-        Mesh.ApplyAndDisposeWritableMeshData(outputMeshData, new[] { newMesh });
+        Mesh.ApplyAndDisposeWritableMeshData(outputMeshData, new[] {newMesh});
         jobs.meshData.Dispose();
         jobs.vertexStart.Dispose();
         jobs.triStart.Dispose();
         newMesh.RecalculateBounds();
 
         mf.mesh = newMesh;
-
     }
 
     [BurstCompile]
@@ -171,13 +187,11 @@ public class Chunk : MonoBehaviour
                     outputTris[i + tStart] = vStart + idx;
                 }
             }
-
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
