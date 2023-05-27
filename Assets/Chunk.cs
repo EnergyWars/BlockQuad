@@ -32,8 +32,6 @@ public class Chunk : MonoBehaviour
             int z = i / (width * height);
             if (MeshUtils.fBM(x, z, 8, 0.001f, 10, -33) > y)
             {
-                UnityEngine.Debug.Log(y);
-                UnityEngine.Debug.Log(MeshUtils.fBM(x, z, 8, 0.001f, 10, -33));
                 chunkData[i] = MeshUtils.BlockType.DIRT;
             }
             else
