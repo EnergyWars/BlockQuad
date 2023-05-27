@@ -24,7 +24,14 @@ public class Chunk : MonoBehaviour
         chunkData = new MeshUtils.BlockType[blockCount];
         for (int i = 0; i < blockCount; i++)
         {
-            chunkData[i] = MeshUtils.BlockType.DIRT;
+            if (UnityEngine.Random.Range(0, 100) > 50)
+            {
+                chunkData[i] = MeshUtils.BlockType.GRASSTOP;
+            }
+            else
+            {
+                chunkData[i] = MeshUtils.BlockType.DIRT;
+            }
         }
     }
 
