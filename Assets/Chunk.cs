@@ -38,19 +38,17 @@ public class Chunk : MonoBehaviour
             int x = i % width + (int) location.x;
             int y = (i / width) % height + (int) location.y;
             int z = i / (width * height) + (int) location.z;
-            if (MeshUtils.fBM(x, z, this.octaves, this.scale, this.heightScale, this.heightOffset) > y)
-            {
-                chunkData[i] = MeshUtils.BlockType.DIRT;
-            }
-            else
-            {
-                chunkData[i] = MeshUtils.BlockType.AIR;
-            }
-        }
-    }
 
-    void Start()
-    {
+            int surfaceHeight =
+                (int) MeshUtils.fBM(x, z, this.octaves, this.scale, this.heightScale, this.heightOffset);
+
+            if (surfaceHeight == y)
+                chunkData[i] = MeshUtils.BlockType.GRASSSIDE;
+            else if (y < surfaceHeight)
+                chunkData[i] = MeshUtils.BlockType.DIRT;
+            else
+                chunkData[i] = MeshUtils.BlockType.AIR;
+        }
     }
 
     public void CreateChunk(Vector3 dimensions, Vector3 position)
