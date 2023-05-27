@@ -1,16 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class PerlenGrapher : MonoBehaviour
+public class PerlinGrapher : MonoBehaviour
 {
     public LineRenderer lr;
     public float heightScale = 2;
+    [Range(0.0f, 1.0f)]
     public float scale = 0.5f;
     public int octaves = 1;
     public float heightOffset = 1;
+    [Range(0.0f, 1.0f)]
+    public float probability = 1;
 
     // Start is called before the first frame update
     void Start()

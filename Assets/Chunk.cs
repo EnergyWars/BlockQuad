@@ -14,11 +14,6 @@ public class Chunk : MonoBehaviour
     public int height = 2;
     public int depth = 2;
 
-    [Header("Perlin Settings")] public float heightScale = 10;
-    public float scale = 0.001f;
-    public int octaves = 8;
-    public float heightOffset = -33;
-
     public Vector3 location;
 
     public Block[,,] blocks;
