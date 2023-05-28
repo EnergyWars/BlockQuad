@@ -54,6 +54,20 @@ public class Chunk : MonoBehaviour
                 (int) MeshUtils.fBM3D(x, y, z, World.caveSettings.octaves, World.caveSettings.scale,
                     World.caveSettings.heightScale, World.caveSettings.heightOffset);
 
+
+            if (y == 0)
+            {
+                chunkData[i] = MeshUtils.BlockType.BEDROCK;
+                continue;
+            }
+
+
+            if (digCave < World.caveSettings.probability)
+            {
+                chunkData[i] = MeshUtils.BlockType.AIR;
+                continue;
+            }
+
             if (surfaceHeight == y)
                 chunkData[i] = MeshUtils.BlockType.GRASSSIDE;
             else if (y < diamondTHeight && y > diamondBHeight &&
@@ -64,9 +78,6 @@ public class Chunk : MonoBehaviour
             else if (y < surfaceHeight)
                 chunkData[i] = MeshUtils.BlockType.DIRT;
             else
-                chunkData[i] = MeshUtils.BlockType.AIR;
-            
-            if (digCave < World.caveSettings.probability)
                 chunkData[i] = MeshUtils.BlockType.AIR;
         }
     }
