@@ -406,6 +406,7 @@ MonoBehaviour:
   stone: {fileID: 1982031539}
   diamondT: {fileID: 1341130292}
   diamondB: {fileID: 400016934}
+  caves: {fileID: 9099330971211298510, guid: 9c492346c83ad3745ac7f8bf1eb027a1, type: 3}
 --- !u!4 &414824894
 Transform:
   m_ObjectHideFlags: 0

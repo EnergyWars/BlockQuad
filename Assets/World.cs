@@ -24,7 +24,7 @@ public struct PerlinSettings
 
 public class World : MonoBehaviour
 {
-    public static Vector3 worldDimensions = new Vector3(3, 3, 3);
+    public static Vector3 worldDimensions = new Vector3(4, 4, 4);
     public static Vector3 chunkDimensions = new Vector3(10, 10, 10);
     public GameObject chunkPrefab;
     public GameObject mCamera;
@@ -34,17 +34,17 @@ public class World : MonoBehaviour
     public static PerlinSettings surfaceSettings;
     public PerlinGrapher surface;
 
-
     public static PerlinSettings stoneSettings;
     public PerlinGrapher stone;
-
 
     public static PerlinSettings diamondTSettings;
     public PerlinGrapher diamondT;
 
-
     public static PerlinSettings diamondBSettings;
     public PerlinGrapher diamondB;
+
+    public static PerlinSettings caveSettings;
+    public Perlin3DGrapher caves;
 
 
     void Start()
@@ -66,6 +66,10 @@ public class World : MonoBehaviour
         diamondBSettings = new PerlinSettings(
             diamondB.heightScale, diamondB.scale, diamondB.octaves, diamondB.heightOffset,
             diamondB.probability);
+
+        caveSettings = new PerlinSettings(
+            caves.heightScale, caves.scale, caves.octaves, caves.heightOffset,
+            caves.DrawCutOff);
 
         StartCoroutine(BuildWorld());
     }

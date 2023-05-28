@@ -35,26 +35,38 @@ public class Chunk : MonoBehaviour
             int z = i / (width * height) + (int) location.z;
 
             int surfaceHeight =
-                (int) MeshUtils.fBM(x, z, World.surfaceSettings.octaves, World.surfaceSettings.scale, World.surfaceSettings.heightScale, World.surfaceSettings.heightOffset);
+                (int) MeshUtils.fBM(x, z, World.surfaceSettings.octaves, World.surfaceSettings.scale,
+                    World.surfaceSettings.heightScale, World.surfaceSettings.heightOffset);
 
             int stoneHeight =
-                (int) MeshUtils.fBM(x, z, World.stoneSettings.octaves, World.stoneSettings.scale, World.stoneSettings.heightScale, World.stoneSettings.heightOffset);
+                (int) MeshUtils.fBM(x, z, World.stoneSettings.octaves, World.stoneSettings.scale,
+                    World.stoneSettings.heightScale, World.stoneSettings.heightOffset);
 
             int diamondTHeight =
-                (int) MeshUtils.fBM(x, z, World.diamondTSettings.octaves, World.diamondTSettings.scale, World.diamondTSettings.heightScale, World.diamondTSettings.heightOffset);
+                (int) MeshUtils.fBM(x, z, World.diamondTSettings.octaves, World.diamondTSettings.scale,
+                    World.diamondTSettings.heightScale, World.diamondTSettings.heightOffset);
 
             int diamondBHeight =
-                (int) MeshUtils.fBM(x, z, World.diamondBSettings.octaves, World.diamondBSettings.scale, World.diamondBSettings.heightScale, World.diamondBSettings.heightOffset);
+                (int) MeshUtils.fBM(x, z, World.diamondBSettings.octaves, World.diamondBSettings.scale,
+                    World.diamondBSettings.heightScale, World.diamondBSettings.heightOffset);
+
+            int digCave =
+                (int) MeshUtils.fBM3D(x, y, z, World.caveSettings.octaves, World.caveSettings.scale,
+                    World.caveSettings.heightScale, World.caveSettings.heightOffset);
 
             if (surfaceHeight == y)
                 chunkData[i] = MeshUtils.BlockType.GRASSSIDE;
-            else if (y < diamondTHeight && y > diamondBHeight && UnityEngine.Random.Range(0f,1f) <= World.diamondTSettings.probability)
+            else if (y < diamondTHeight && y > diamondBHeight &&
+                     UnityEngine.Random.Range(0f, 1f) <= World.diamondTSettings.probability)
                 chunkData[i] = MeshUtils.BlockType.DIAMOND;
-            else if (y < stoneHeight && UnityEngine.Random.Range(0f,1f) < World.stoneSettings.probability)
+            else if (y < stoneHeight && UnityEngine.Random.Range(0f, 1f) < World.stoneSettings.probability)
                 chunkData[i] = MeshUtils.BlockType.STONE;
             else if (y < surfaceHeight)
                 chunkData[i] = MeshUtils.BlockType.DIRT;
             else
+                chunkData[i] = MeshUtils.BlockType.AIR;
+            
+            if (digCave < World.caveSettings.probability)
                 chunkData[i] = MeshUtils.BlockType.AIR;
         }
     }
