@@ -35,10 +35,15 @@ public class Chunk : MonoBehaviour
             int z = i / (width * height) + (int) location.z;
 
             int surfaceHeight =
-                (int) MeshUtils.fBM(x, z, this.octaves, this.scale, this.heightScale, this.heightOffset);
+                (int) MeshUtils.fBM(x, z, World.surfaceSettings.octaves, World.surfaceSettings.scale, World.surfaceSettings.heightScale, World.surfaceSettings.heightOffset);
+
+            int stoneHeight =
+                (int) MeshUtils.fBM(x, z, World.stoneSettings.octaves, World.stoneSettings.scale, World.stoneSettings.heightScale, World.stoneSettings.heightOffset);
 
             if (surfaceHeight == y)
                 chunkData[i] = MeshUtils.BlockType.GRASSSIDE;
+            else if (y < stoneHeight && UnityEngine.Random.Range(0f,1f) < World.stoneSettings.probability)
+                chunkData[i] = MeshUtils.BlockType.STONE;
             else if (y < surfaceHeight)
                 chunkData[i] = MeshUtils.BlockType.DIRT;
             else
