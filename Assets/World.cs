@@ -39,6 +39,14 @@ public class World : MonoBehaviour
     public PerlinGrapher stone;
 
 
+    public static PerlinSettings diamondTSettings;
+    public PerlinGrapher diamondT;
+
+
+    public static PerlinSettings diamondBSettings;
+    public PerlinGrapher diamondB;
+
+
     void Start()
     {
         loadingBar.maxValue = worldDimensions.x * worldDimensions.y * worldDimensions.z;
@@ -47,10 +55,17 @@ public class World : MonoBehaviour
             surface.heightScale, surface.scale, surface.octaves, surface.heightOffset,
             surface.probability);
 
-
         stoneSettings = new PerlinSettings(
             stone.heightScale, stone.scale, stone.octaves, stone.heightOffset,
             stone.probability);
+
+        diamondTSettings = new PerlinSettings(
+            diamondT.heightScale, diamondT.scale, diamondT.octaves, diamondT.heightOffset,
+            diamondT.probability);
+
+        diamondBSettings = new PerlinSettings(
+            diamondB.heightScale, diamondB.scale, diamondB.octaves, diamondB.heightOffset,
+            diamondB.probability);
 
         StartCoroutine(BuildWorld());
     }

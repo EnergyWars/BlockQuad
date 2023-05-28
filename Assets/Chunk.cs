@@ -40,8 +40,16 @@ public class Chunk : MonoBehaviour
             int stoneHeight =
                 (int) MeshUtils.fBM(x, z, World.stoneSettings.octaves, World.stoneSettings.scale, World.stoneSettings.heightScale, World.stoneSettings.heightOffset);
 
+            int diamondTHeight =
+                (int) MeshUtils.fBM(x, z, World.diamondTSettings.octaves, World.diamondTSettings.scale, World.diamondTSettings.heightScale, World.diamondTSettings.heightOffset);
+
+            int diamondBHeight =
+                (int) MeshUtils.fBM(x, z, World.diamondBSettings.octaves, World.diamondBSettings.scale, World.diamondBSettings.heightScale, World.diamondBSettings.heightOffset);
+
             if (surfaceHeight == y)
                 chunkData[i] = MeshUtils.BlockType.GRASSSIDE;
+            else if (y < diamondTHeight && y > diamondBHeight && UnityEngine.Random.Range(0f,1f) <= World.diamondTSettings.probability)
+                chunkData[i] = MeshUtils.BlockType.DIAMOND;
             else if (y < stoneHeight && UnityEngine.Random.Range(0f,1f) < World.stoneSettings.probability)
                 chunkData[i] = MeshUtils.BlockType.STONE;
             else if (y < surfaceHeight)
