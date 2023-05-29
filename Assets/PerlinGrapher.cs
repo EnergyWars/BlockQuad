@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -11,7 +13,6 @@ public class PerlinGrapher : MonoBehaviour
     public float heightOffset = 1;
     [Range(0.0f, 1.0f)]
     public float probability = 1;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,19 +20,18 @@ public class PerlinGrapher : MonoBehaviour
         lr.positionCount = 100;
         Graph();
     }
-    
-    // float fBM(float x, float z)
-    // {
-    //     float total = 0;
-    //     float frequency = 1;
-    //     for (int i = 0; i < octaves; i++)
-    //     {
-    //         total += Mathf.PerlinNoise(x * scale * frequency, z * scale * frequency) * heightScale;
-    //         frequency *= 2;
-    //     }
-    //
-    //     return total;
-    // }
+
+    /*float fBM(float x, float z)
+    {
+        float total = 0;
+        float frequency = 1;
+        for (int i = 0; i < octaves; i++)
+        {
+            total += Mathf.PerlinNoise(x * scale * frequency, z * scale * frequency) * heightScale;
+            frequency *= 2;
+        }
+        return total;
+    }*/
 
     void Graph()
     {
@@ -41,14 +41,13 @@ public class PerlinGrapher : MonoBehaviour
         Vector3[] positions = new Vector3[lr.positionCount];
         for (int x = 0; x < lr.positionCount; x++)
         {
-            float y = MeshUtils.fBM(x, z, octaves, scale, heightScale, heightOffset);
+            float y = MeshUtils.fBM(x, z, octaves, scale, heightScale,heightOffset);
             positions[x] = new Vector3(x, y, z);
         }
-
         lr.SetPositions(positions);
     }
 
-    private void OnValidate()
+    void OnValidate()
     {
         Graph();
     }
@@ -56,5 +55,6 @@ public class PerlinGrapher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
 }

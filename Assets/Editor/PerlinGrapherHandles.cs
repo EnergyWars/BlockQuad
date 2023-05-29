@@ -5,9 +5,8 @@ using UnityEditor;
 [CustomEditor(typeof(PerlinGrapher))]
 public class PerlinGrapherHandles : Editor
 {
-    public void OnSceneGUI()
+    void OnSceneGUI()
     {
-
         PerlinGrapher handle = (PerlinGrapher)target;
         if (handle == null)
         {

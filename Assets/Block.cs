@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,8 +15,7 @@ public class Block {
         if (type != MeshUtils.BlockType.AIR)
         {
             List<Quad> quads = new List<Quad>();
-            
-            if (!HasSolidNeighbour((int) blockLocalPos.x, (int) blockLocalPos.y - 1, (int) blockLocalPos.z))
+            if (!HasSolidNeighbour((int)blockLocalPos.x, (int)blockLocalPos.y - 1, (int)blockLocalPos.z))
             {
                 if (type == MeshUtils.BlockType.GRASSSIDE)
                     quads.Add(new Quad(MeshUtils.BlockSide.BOTTOM, offset, MeshUtils.BlockType.DIRT));
@@ -23,13 +23,14 @@ public class Block {
                     quads.Add(new Quad(MeshUtils.BlockSide.BOTTOM, offset, type));
             }
 
-            if (!HasSolidNeighbour((int) blockLocalPos.x, (int) blockLocalPos.y + 1, (int) blockLocalPos.z))
+            if (!HasSolidNeighbour((int)blockLocalPos.x, (int)blockLocalPos.y + 1, (int)blockLocalPos.z))
             {
-                if (type == MeshUtils.BlockType.GRASSSIDE)
+                if(type == MeshUtils.BlockType.GRASSSIDE) 
                     quads.Add(new Quad(MeshUtils.BlockSide.TOP, offset, MeshUtils.BlockType.GRASSTOP));
                 else
                     quads.Add(new Quad(MeshUtils.BlockSide.TOP, offset, type));
             }
+
 
             if (!HasSolidNeighbour((int)blockLocalPos.x - 1, (int)blockLocalPos.y, (int)blockLocalPos.z))
                 quads.Add(new Quad(MeshUtils.BlockSide.LEFT, offset, type));
@@ -54,8 +55,6 @@ public class Block {
             mesh.name = "Cube_0_0_0";
         }
     }
-    
-    
 
     public bool HasSolidNeighbour(int x, int y, int z)
     {
